@@ -1,0 +1,38 @@
+@function px2rem($px, $base-font-size: 75px) {
+  @return ($px / $base-font-size) * 1rem;
+}
+
+$bg100: 100% auto;
+@mixin bgCover {
+  background-size: cover;
+}
+@mixin bg100 {
+  background-size: $bg100;
+}
+
+$pr: relative;
+$pa: absolute;
+
+@mixin pr {
+  position: $pr;
+}
+@mixin pa {
+  position: $pa;
+}
+@mixin full {
+  position: $pa;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.origin-size {
+  position: $pa;
+  width: px2rem(750px);
+  height: px2rem(1494px);
+  left: 50%;
+  top: 50%;
+  margin: px2rem(-747px) 0 0 px2rem(-375px);
+}
+

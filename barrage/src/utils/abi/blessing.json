@@ -1,0 +1,365 @@
+[
+  {
+   "inputs": [
+    {
+     "internalType": "string",
+     "name": "content",
+     "type": "string"
+    }
+   ],
+   "name": "bid",
+   "outputs": [],
+   "stateMutability": "payable",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "_manager",
+     "type": "address"
+    }
+   ],
+   "stateMutability": "nonpayable",
+   "type": "constructor"
+  },
+  {
+   "anonymous": false,
+   "inputs": [
+    {
+     "indexed": false,
+     "internalType": "address",
+     "name": "bidder",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "internalType": "uint256",
+     "name": "amount",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "internalType": "string",
+     "name": "content",
+     "type": "string"
+    }
+   ],
+   "name": "Bidding",
+   "type": "event"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "max_value",
+     "type": "uint256"
+    }
+   ],
+   "name": "set_max",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "max_content_length_value",
+     "type": "uint256"
+    }
+   ],
+   "name": "set_max_content_length",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "minimum_bid_value",
+     "type": "uint256"
+    }
+   ],
+   "name": "set_minimum_bid_value",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "reset_duration_value",
+     "type": "uint256"
+    }
+   ],
+   "name": "set_reset_duration",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "size",
+     "type": "uint256"
+    }
+   ],
+   "name": "get_pairs",
+   "outputs": [
+    {
+     "components": [
+      {
+       "internalType": "uint256",
+       "name": "value",
+       "type": "uint256"
+      },
+      {
+       "internalType": "string",
+       "name": "content",
+       "type": "string"
+      },
+      {
+       "internalType": "address",
+       "name": "sender",
+       "type": "address"
+      }
+     ],
+     "internalType": "struct BlessingWall.Pair[]",
+     "name": "",
+     "type": "tuple[]"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "get_pairs_length",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "size",
+     "type": "uint256"
+    }
+   ],
+   "name": "get_special_pairs",
+   "outputs": [
+    {
+     "components": [
+      {
+       "internalType": "uint256",
+       "name": "value",
+       "type": "uint256"
+      },
+      {
+       "internalType": "string",
+       "name": "content",
+       "type": "string"
+      },
+      {
+       "internalType": "address",
+       "name": "sender",
+       "type": "address"
+      }
+     ],
+     "internalType": "struct BlessingWall.Pair[]",
+     "name": "",
+     "type": "tuple[]"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "get_special_pairs_length",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "get_top_period_pairs",
+   "outputs": [
+    {
+     "components": [
+      {
+       "internalType": "uint256",
+       "name": "value",
+       "type": "uint256"
+      },
+      {
+       "internalType": "string",
+       "name": "content",
+       "type": "string"
+      },
+      {
+       "internalType": "address",
+       "name": "sender",
+       "type": "address"
+      }
+     ],
+     "internalType": "struct BlessingWall.Pair[]",
+     "name": "",
+     "type": "tuple[]"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "get_top_special_pairs",
+   "outputs": [
+    {
+     "components": [
+      {
+       "internalType": "uint256",
+       "name": "value",
+       "type": "uint256"
+      },
+      {
+       "internalType": "string",
+       "name": "content",
+       "type": "string"
+      },
+      {
+       "internalType": "address",
+       "name": "sender",
+       "type": "address"
+      }
+     ],
+     "internalType": "struct BlessingWall.Pair[]",
+     "name": "",
+     "type": "tuple[]"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "manager",
+   "outputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "max",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "max_content_length",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "minimum_bid",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "period_count",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "reset_duration",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "reset_time",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "total",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  }
+ ]
