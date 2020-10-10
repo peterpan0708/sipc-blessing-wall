@@ -10,17 +10,19 @@
         </Countdown>
       </div>
       <div class="top">
-        <div class="item" v-for="(item, index) in topList" :key="index">
+        <div
+          class="item"
+          v-for="(item, index) in topList"
+          :key="index"
+          v-show="item.value !== '0'"
+        >
           <div class="img-box">
             <img :src="imgUrl[index]" alt="" width="20" height="20" />
             <span :class="`img-right title-${index}`"
               >{{ coinAmount(item.value) }} SIPC</span
             >
           </div>
-          <div
-            class="info"
-            v-if="item.sender !== '0x0000000000000000000000000000000000000000'"
-          >
+          <div class="info">
             <p :class="`title  title-${index}`">{{ item.content }}</p>
             <p class="wallet-info">钱包：{{ item.sender }}</p>
           </div>
@@ -81,7 +83,8 @@
           <li class="item" v-for="(item, index) in list" :key="index">
             <el-row type="flex">
               <el-col :span="1">{{ index + 1 }}</el-col>
-              <el-col :span="23" class="item-content">{{
+              <el-col :span="5">{{ coinAmount(item.value) }} SIPC</el-col>
+              <el-col :span="17" class="item-content">{{
                 item["content"]
               }}</el-col>
             </el-row>
@@ -247,10 +250,11 @@ export default {
 
     async fetchContractData() {
       this.contract.methods
-        .get_top_special_pairs()
+        .get_top_period_pairs()
         .call()
         .then(data => {
           data.forEach((e, i) => {
+            console.log(e);
             if (i <= 2) {
               this.topList.push(e);
             }
