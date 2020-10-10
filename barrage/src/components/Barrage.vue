@@ -90,6 +90,10 @@
             </el-row>
           </li>
         </ul>
+        <p>
+          注: 0.01SIPC以上才可以上榜。
+          公益项目，打榜费用直接转向黑洞地址，任何人无法取出。
+        </p>
       </div>
     </div>
   </section>
@@ -607,7 +611,7 @@ input:focus::-webkit-input-placeholder {
       text-align: left;
     }
     ul {
-      height: px2rem(1000px);
+      max-height: px2rem(1000px);
       overflow: scroll;
       overflow-x: hidden;
       overflow-y: scroll;
@@ -619,12 +623,16 @@ input:focus::-webkit-input-placeholder {
         text-align: left;
         font-size: px2rem(20px);
         .item-content {
-          width: px2rem(600px);
+          width: px2rem(550px);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
       }
+    }
+    p {
+      margin-top: px2rem(30px);
+      color: #888;
     }
   }
 }
