@@ -1,27 +1,8 @@
 <template>
   <section class="page in" :class="{ out: hide }">
-    <div class="barrage-bg shadow" ref="barrageBg"></div>
+    <div class="barrage-bg" ref="barrageBg"></div>
     <div class="content" :style="contentStyle">
       <div class="barrage-box">
-        <div class="top">
-          <div class="item" v-for="(item, index) in topList" :key="index">
-            <div class="img-box">
-              <img :src="imgUrl[index]" alt="" width="20" height="20" />
-              <span :class="`img-right title-${index}`"
-                >{{ coinAmount(item.value) }} SIPC</span
-              >
-            </div>
-            <div
-              class="info"
-              v-if="
-                item.sender !== '0x0000000000000000000000000000000000000000'
-              "
-            >
-              <p :class="`title  title-${index}`">{{ item.content }}</p>
-              <p class="wallet-info">钱包：{{ item.sender }}</p>
-            </div>
-          </div>
-        </div>
         <div class="barrage-stage" ref="barrageStage">
           <template v-for="(item, index) of barrageList">
             <div
@@ -69,6 +50,45 @@
         >
       </div>
     </div>
+    <div class="top-list">
+      <div class="count-down">
+        <p>重置倒计时</p>
+        <Countdown :time="endTime" format="hh:mm:ss" @on-end="onCountdownEnd">
+          <template slot-scope="{ time }">{{ time }}</template>
+        </Countdown>
+      </div>
+
+      <div class="top">
+        <div class="item" v-for="(item, index) in topList" :key="index">
+          <div class="img-box">
+            <img :src="imgUrl[index]" alt="" width="20" height="20" />
+            <span :class="`img-right title-${index}`"
+              >{{ coinAmount(item.value) }} SIPC</span
+            >
+          </div>
+          <div
+            class="info"
+            v-if="item.sender !== '0x0000000000000000000000000000000000000000'"
+          >
+            <p :class="`title  title-${index}`">{{ item.content }}</p>
+            <p class="wallet-info">钱包：{{ item.sender }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="list">
+        <h2 class="title">榜单</h2>
+        <ul>
+          <li class="item" v-for="(item, index) in list" :key="index">
+            <el-row>
+              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="23" class="item-content">{{
+                item["content"]
+              }}</el-col>
+            </el-row>
+          </li>
+        </ul>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -79,9 +99,10 @@ import metamask from "../utils//metamask.js";
 import { connectContract } from "../utils/contract";
 import Mint from "mint-filter";
 import keywords from "../utils/keywords.json";
+import Countdown from "@choujiaojiao/vue2-countdown";
 export default {
   name: "Barrage",
-
+  components: { Countdown },
   data() {
     return {
       hide: false,
@@ -112,12 +133,13 @@ export default {
       minAmount: null,
       filterContent: "",
       accounts: [],
-      total: ""
+      total: "",
+      endTime: 0
     };
   },
 
   computed: {
-    ...mapState(["contentWidth", "insurancePolicyStatus", "total"]),
+    ...mapState(["contentWidth"]),
 
     contentStyle() {
       return { width: this.contentWidth };
@@ -235,6 +257,28 @@ export default {
             this.addToList(e.content, this.barrageList.length);
           });
         });
+
+      this.contract.methods
+        .get_top_special_pairs()
+        .call()
+        .then(data => {
+          this.list = [];
+          data.forEach(e => {
+            if (e.value !== "0") {
+              this.list.push(e);
+            }
+          });
+        });
+
+      this.contract.methods
+        .reset_time()
+        .call()
+        .then(data => {
+          this.endTime = data * 1000 - new Date().getTime();
+          console.log(data * 1000);
+          console.log(new Date().getTime());
+          console.log(this.endTime);
+        });
     },
 
     async addBarrage() {
@@ -339,7 +383,9 @@ export default {
       return maxX > this.stageWidth
         ? maxX + 50 + this.random(50)
         : this.stageWidth + 20 + this.random(50);
-    }
+    },
+
+    onCountdownEnd() {}
   }
 };
 </script>
@@ -382,51 +428,6 @@ export default {
     .barrage-cover-2 {
       right: px2rem(-10px);
       transform: rotate(180deg);
-    }
-    .top {
-      width: px2rem(700px);
-      margin: 0 auto;
-      .item {
-        position: relative;
-        margin-bottom: px2rem(20px);
-        .img-box {
-          position: absolute;
-          top: px2rem(15px);
-          .img-right {
-            padding-left: px2rem(40px);
-          }
-          img {
-            display: inline-block;
-          }
-          span {
-            font-size: px2rem(26px);
-          }
-        }
-
-        .info {
-          padding-left: px2rem(240px);
-          text-align: left;
-          height: px2rem(65px);
-          .title {
-            padding-bottom: px2rem(10px);
-            font-size: px2rem(26px);
-          }
-        }
-
-        .wallet-info {
-          color: #888;
-          height: px2rem(25px);
-        }
-      }
-      .title-0 {
-        color: gold;
-      }
-      .title-1 {
-        color: silver;
-      }
-      .title-2 {
-        color: goldenrod;
-      }
     }
   }
 
@@ -510,6 +511,92 @@ export default {
 }
 input:focus::-webkit-input-placeholder {
   opacity: 0.2;
+}
+.top-list {
+  position: absolute;
+  right: 0;
+  .count-down {
+    margin-top: px2rem(30px);
+    color: gray;
+    font-size: px2rem(25px);
+    p {
+      padding-bottom: px2rem(10px);
+    }
+  }
+  .top {
+    width: px2rem(700px);
+    margin: 0 auto;
+    padding-top: px2rem(30px);
+    .item {
+      position: relative;
+      margin-bottom: px2rem(20px);
+      .img-box {
+        position: absolute;
+        top: px2rem(15px);
+        .img-right {
+          padding-left: px2rem(40px);
+        }
+        img {
+          display: inline-block;
+        }
+        span {
+          font-size: px2rem(26px);
+        }
+      }
+
+      .info {
+        padding-left: px2rem(240px);
+        text-align: left;
+        height: px2rem(65px);
+        .title {
+          padding-bottom: px2rem(10px);
+          font-size: px2rem(26px);
+        }
+      }
+
+      .wallet-info {
+        color: #888;
+        height: px2rem(25px);
+      }
+    }
+    .title-0 {
+      color: gold;
+    }
+    .title-1 {
+      color: silver;
+    }
+    .title-2 {
+      color: goldenrod;
+    }
+  }
+  .list {
+    .title {
+      margin-top: px2rem(50px);
+      margin-bottom: px2rem(20px);
+      font-size: px2rem(40px);
+      text-align: left;
+    }
+    ul {
+      height: px2rem(800px);
+      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      li {
+        padding: px2rem(10px) 0;
+        text-align: left;
+        font-size: px2rem(20px);
+        .item-content {
+          width: px2rem(600px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
 }
 </style>
 <style lang="scss">

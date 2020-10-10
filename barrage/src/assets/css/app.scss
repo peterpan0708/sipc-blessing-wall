@@ -59,17 +59,12 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.shadow {
-  box-shadow: inset 0 0 px2rem(20px) px2rem(25px) rgba(0, 0, 0, 0.2);
-}
-
 .content {
   @include pa;
   max-width: 100%;
   height: 100%;
-  left: 50%;
+  left: 10%;
   top: 0;
-  transform: translateX(-50%);
 }
 
 .logo-wrap {

@@ -27,8 +27,9 @@ const mutations = {
     state.winH = h;
     state.direction = dir;
     state.contentWidth =
-      Math.round((state.contentSize.w * state.winH) / state.contentSize.h) +
-      "px";
+      Math.round(
+        (state.contentSize.w * state.winH) / state.contentSize.h - 300
+      ) + "px";
   }
 };
 
