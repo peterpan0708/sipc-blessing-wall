@@ -205,41 +205,51 @@ export default {
       window.requestAnimationFrame(this.move);
     },
 
+    fetchTopPeriodPairs() {
+      this.contract.methods
+        .get_top_period_pairs()
+        .call()
+        .then(data => {
+          data.forEach((e, i) => {
+            if (i <= 2) {
+              this.topList.push(e);
+            }
+          });
+        });
+    },
+
+    fetchTopSpecialPairs() {
+      this.contract.methods
+        .get_top_special_pairs()
+        .call()
+        .then(data => {
+          this.list = [];
+          data.forEach(e => {
+            if (e.value !== "0") {
+              this.list.push(e);
+            }
+          });
+        });
+    },
+
+    fetchResetTime() {
+      this.contract.methods
+        .reset_time()
+        .call()
+        .then(data => {
+          this.endTime = parseInt(data - new Date().getTime() / 1000);
+        });
+    },
+
     async fetchBarrage() {
       this.contract = await connectContract();
       this.accounts = await this.metamask.getAccounts();
       this.contract.events
         .Bidding()
         .on("data", event => {
-          this.contract.methods
-            .get_top_special_pairs()
-            .call()
-            .then(data => {
-              this.topList = [];
-              data.forEach((e, i) => {
-                if (i <= 2) {
-                  this.topList.push(e);
-                }
-              });
-              this.contract.methods
-                .reset_time()
-                .call()
-                .then(data => {
-                  this.endTime = parseInt(data - new Date().getTime() / 1000);
-                });
-
-              this.contract.methods
-                .get_top_special_pairs()
-                .call()
-                .then(data => {
-                  this.list = [];
-                  data.forEach(e => {
-                    if (e.value !== "0") {
-                      this.list.push(e);
-                    }
-                  });
-                });
-            });
+          this.fetchTopPeriodPairs();
+          this.fetchTopSpecialPairs();
+          this.fetchResetTime();
           this.contract.methods
             .total()
             .call()
@@ -253,18 +263,9 @@ export default {
     },
 
     async fetchContractData() {
-      this.contract.methods
-        .get_top_period_pairs()
-        .call()
-        .then(data => {
-          data.forEach((e, i) => {
-            console.log(e);
-            if (i <= 2) {
-              this.topList.push(e);
-            }
-          });
-        });
-
+      this.fetchTopPeriodPairs();
+      this.fetchTopSpecialPairs();
+      this.fetchResetTime();
       this.minAmount = web3.utils.fromWei(
         await this.contract.methods.minimum_bid().call(),
         "ether"
@@ -288,25 +289,6 @@ export default {
           data.forEach(e => {
             this.addToList(e.content, this.barrageList.length);
           });
-        });
-
-      this.contract.methods
-        .get_top_special_pairs()
-        .call()
-        .then(data => {
-          this.list = [];
-          data.forEach(e => {
-            if (e.value !== "0") {
-              this.list.push(e);
-            }
-          });
-        });
-
-      this.contract.methods
-        .reset_time()
-        .call()
-        .then(data => {
-          this.endTime = parseInt(data - new Date().getTime() / 1000);
         });
     },
 
