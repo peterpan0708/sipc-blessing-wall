@@ -14,7 +14,7 @@ contract BlessingWall {
     uint256 public max_content_length = 32;
     uint256 constant top_count = 20;
 //    uint256 constant period_top_count = 10;
-    uint256 public reset_duration = 60 * 60;
+    uint256 public reset_duration = 7 * 24 *60 * 60;
     uint256 public reset_time;
 
     event Bidding (address bidder, uint amount, string content);
@@ -93,16 +93,16 @@ contract BlessingWall {
             //粗暴处理方法
             if (msg.value > third.value) {
                 third = p;
-            }
-            if (third.value > second.value) {
-                Pair memory temp = third;
-                third = second;
-                second = temp;
-            }
-            if (second.value > first.value) {
-                Pair memory temp = second;
-                second = first;
-                first = temp;
+                if (third.value > second.value) {
+                    Pair memory temp = third;
+                    third = second;
+                    second = temp;
+                    if (second.value > first.value) {
+                        Pair memory temp = second;
+                        second = first;
+                        first = temp;
+                    }
+                }
             }
         } else {
             pairs.push(p);
