@@ -210,9 +210,17 @@ export default {
         .get_top_period_pairs()
         .call()
         .then(data => {
+          this.topList = [];
           data.forEach((e, i) => {
             if (i <= 2) {
-              this.topList.push(e);
+              const mint = new Mint(keywords);
+              mint.filter(e["content"]).then(data => {
+                this.topList.push({
+                  content: data["text"],
+                  value: e["value"],
+                  sender: e["sender"]
+                });
+              });
             }
           });
         });
@@ -226,7 +234,14 @@ export default {
           this.list = [];
           data.forEach(e => {
             if (e.value !== "0") {
-              this.list.push(e);
+              const mint = new Mint(keywords);
+              mint.filter(e["content"]).then(data => {
+                this.list.push({
+                  content: data["text"],
+                  value: e["value"],
+                  sender: e["sender"]
+                });
+              });
             }
           });
         });
