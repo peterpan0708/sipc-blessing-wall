@@ -82,9 +82,9 @@
         <ul>
           <li class="item" v-for="(item, index) in list" :key="index">
             <el-row type="flex">
-              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="2">{{ index + 1 }}. </el-col>
               <el-col :span="5">{{ coinAmount(item.value) }} SIPC</el-col>
-              <el-col :span="17" class="item-content">{{
+              <el-col :span="16" class="item-content">{{
                 item["content"]
               }}</el-col>
             </el-row>
