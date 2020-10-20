@@ -8,10 +8,7 @@ export async function connectContract() {
   return new Contract(abi, "0x395392a02768ba33e13daf161bcb0647b6a9f418");
 }
 
-export async function NotConnectContract() {
+export async function notConnectContract() {
   Contract.setProvider("http://47.101.31.92:18546/");
-  this.contract = new Contract(
-    abi,
-    "0x395392a02768ba33e13daf161bcb0647b6a9f418"
-  );
+  return new Contract(abi, "0x395392a02768ba33e13daf161bcb0647b6a9f418");
 }

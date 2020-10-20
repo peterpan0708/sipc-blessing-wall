@@ -103,7 +103,7 @@
 import { mapState } from "vuex";
 import web3 from "web3";
 import metamask from "../utils//metamask.js";
-import { connectContract } from "../utils/contract";
+import { connectContract, notConnectContract } from "../utils/contract";
 import Mint from "mint-filter";
 import keywords from "../utils/keywords.json";
 import Countdown from "@choujiaojiao/vue2-countdown";
@@ -152,14 +152,15 @@ export default {
       return { width: this.contentWidth };
     }
   },
-  created() {
+  async created() {
     this.metamask = metamask;
     if (this.metamask.isMetaMaskInstalled()) {
+      this.contract = await connectContract();
       this.buttonLoading = false;
       this.metamask.onClickConnect();
       this.fetchBarrage();
     } else {
-      this.metamask.NotConnectContract();
+      this.contract = await notConnectContract();
       this.fetchContractData();
       this.buttonLoading = true;
     }
@@ -257,7 +258,6 @@ export default {
     },
 
     async fetchBarrage() {
-      this.contract = await connectContract();
       this.accounts = await this.metamask.getAccounts();
       this.contract.events
         .Bidding()
