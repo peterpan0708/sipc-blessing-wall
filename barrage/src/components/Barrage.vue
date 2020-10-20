@@ -1,5 +1,11 @@
 <template>
-  <section class="page in" :class="{ out: hide }">
+  <section
+    class="page in"
+    :class="{ out: hide }"
+    v-loading="loading"
+    element-loading-text="暂时不支持移动端使用，请使用PC端浏览器打开"
+    element-loading-background="rgba(0, 0, 0, 1)"
+  >
     <div class="barrage-bg" ref="barrageBg"></div>
 
     <div class="content" :style="contentStyle">
@@ -17,7 +23,7 @@
           v-show="item.value !== '0'"
         >
           <div class="img-box">
-            <img :src="imgUrl[index]" alt="" width="20" height="20" />
+            <img :src="imgUrl[index]" alt width="20" height="20" />
             <span :class="`img-right title-${index}`"
               >{{ coinAmount(item.value) }} SIPC</span
             >
@@ -82,11 +88,11 @@
         <ul>
           <li class="item" v-for="(item, index) in list" :key="index">
             <el-row type="flex">
-              <el-col :span="2">{{ index + 1 }}. </el-col>
+              <el-col :span="2">{{ index + 1 }}.</el-col>
               <el-col :span="5">{{ coinAmount(item.value) }} SIPC</el-col>
-              <el-col :span="16" class="item-content">{{
-                item["content"]
-              }}</el-col>
+              <el-col :span="16" class="item-content">
+                {{ item["content"] }}
+              </el-col>
             </el-row>
           </li>
         </ul>
@@ -141,7 +147,8 @@ export default {
       filterContent: "",
       accounts: [],
       total: "",
-      endTime: 0
+      endTime: 0,
+      loading: true
     };
   },
 
@@ -153,6 +160,8 @@ export default {
     }
   },
   async created() {
+    this.loading = this.isPC();
+
     this.metamask = metamask;
     if (this.metamask.isMetaMaskInstalled()) {
       this.contract = await connectContract();
@@ -173,6 +182,27 @@ export default {
   },
 
   methods: {
+    isPC() {
+      //是否为PC端
+      var userAgentInfo = navigator.userAgent;
+      var Agents = [
+        "Android",
+        "iPhone",
+        "SymbianOS",
+        "Windows Phone",
+        "iPad",
+        "iPod"
+      ];
+      var flag = true;
+      for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+          flag = false;
+          break;
+        }
+      }
+      return flag;
+    },
+
     random(max) {
       return Math.floor(Math.random() * max);
     },
