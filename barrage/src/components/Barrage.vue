@@ -10,11 +10,13 @@
 
     <div class="content" :style="contentStyle">
       <div class="count-down">
+        <p class="title">SIPC公益打榜墙</p>
         <p>重置倒计时</p>
         <Countdown :time="endTime" format="hh:mm:ss" @on-end="onCountdownEnd">
           <template slot-scope="{ time }">{{ time }}</template>
         </Countdown>
       </div>
+
       <div class="top">
         <div
           class="item"
@@ -82,6 +84,7 @@
         >
       </div>
     </div>
+
     <div class="top-list">
       <div class="list">
         <h2 class="title">历史总榜</h2>
@@ -160,7 +163,7 @@ export default {
     }
   },
   async created() {
-    this.loading = this.isPC();
+    this.loading = !this.isPC();
 
     this.metamask = metamask;
     if (this.metamask.isMetaMaskInstalled()) {
@@ -183,7 +186,6 @@ export default {
 
   methods: {
     isPC() {
-      //是否为PC端
       var userAgentInfo = navigator.userAgent;
       var Agents = [
         "Android",
@@ -461,6 +463,11 @@ export default {
     margin-top: px2rem(30px);
     color: gray;
     font-size: px2rem(25px);
+    .title {
+      color: #2c3e50;
+      font-size: px2rem(30px);
+      margin-bottom: px2rem(15px);
+    }
     p {
       padding-bottom: px2rem(10px);
     }
@@ -589,6 +596,7 @@ export default {
       font-size: px2rem(30px);
       margin-top: px2rem(15px);
       padding-left: px2rem(15px);
+      padding-right: px2rem(15px);
     }
 
     .barrage-add {
