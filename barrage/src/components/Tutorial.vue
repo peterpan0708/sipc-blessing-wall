@@ -64,20 +64,20 @@ export default {};
   font-size: 16px;
 }
 .container .title {
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-bottom: 20px;
   font-size: 26px;
 }
 .container img {
   margin: 0 auto;
 }
 .container .item {
-  padding: 20px;
+  padding: 15px;
   text-align: left;
 }
 
 .item p {
-  padding: 8px 0;
+  padding: 5px 0;
 }
 .container .tips {
   width: 500px;
