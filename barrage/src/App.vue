@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="wrapper" :style="wrapperStyle">
-      <Barrage></Barrage>
+      <router-view></router-view>
     </div>
     <!--<div id="test" style="background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 16px; position: fixed; left: 5px; top: 5px; z-index: 1000;">test</div>-->
   </div>
@@ -11,14 +11,8 @@
 import { mapState } from "vuex";
 import _ from "lodash";
 
-import Barrage from "./components/Barrage";
-
 export default {
   name: "app",
-  components: {
-    Barrage
-  },
-
   data() {
     return {
       timer: null,

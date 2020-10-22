@@ -75,6 +75,12 @@
           >许下你的新年愿望</el-button
         >
         <div class="total-blessing">总祝福：{{ total }}</div>
+        <el-button type="text">
+          <router-link to="/tutorial" style="color: #409EFF">
+            教程
+          </router-link>
+        </el-button>
+
         <el-button
           type="warning"
           plain
@@ -100,7 +106,7 @@
           </li>
         </ul>
         <p>
-          注: 0.01SIPC以上才可以上榜。
+          注: 0.01SIPC以上才可以上榜。 请勿使用ETH进行打榜。
           公益项目，打榜费用直接转向黑洞地址，任何人无法取出。
         </p>
       </div>
