@@ -75,11 +75,6 @@
           >许下你的新年愿望</el-button
         >
         <div class="total-blessing">总祝福：{{ total }}</div>
-        <el-button type="text">
-          <router-link to="/tutorial" style="color: #409EFF">
-            教程
-          </router-link>
-        </el-button>
 
         <el-button
           type="warning"
@@ -93,7 +88,14 @@
 
     <div class="top-list">
       <div class="list">
-        <h2 class="title">历史总榜</h2>
+        <h2 class="title">
+          历史总榜
+          <el-button type="text">
+            <router-link to="/tutorial" style="color: #409EFF">
+              教程
+            </router-link>
+          </el-button>
+        </h2>
         <ul>
           <li class="item" v-for="(item, index) in list" :key="index">
             <el-row type="flex">
